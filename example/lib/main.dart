@@ -53,15 +53,14 @@ class _MyAppState extends State<MyApp> {
                   stepBorderRadius: 15,
                   borderThickness: 2,
                   internalPadding: 10,
-                  padding: const EdgeInsetsDirectional.symmetric(
-                      horizontal: 30, vertical: 20),
+                  padding:  EdgeInsetsDirectional.all(5),
                   stepRadius: 28,
                   finishedStepBorderColor: Colors.deepOrange,
                   finishedStepTextColor: Colors.deepOrange,
                   finishedStepBackgroundColor: Colors.deepOrange,
                   activeStepIconColor: Colors.deepOrange,
                   showLoadingAnimation: false,
-                  showScrollbar: false,
+                  //showScrollbar: false,
                   steps: [
                     EasyStep(
                       customStep: ClipRRect(
@@ -164,10 +163,13 @@ class _MyAppState extends State<MyApp> {
                   lineLength: 100,
                   lineThickness: 3,
                   lineSpace: 4,
-                  padding: EdgeInsetsDirectional.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 2.45,
+                  padding:
+                  //const EdgeInsets.all(5),
+                  EdgeInsetsDirectional.only(
+                    start: MediaQuery.of(context).size.width / 2.45,
+                      end: MediaQuery.of(context).size.width / 2.45
                   ),
-                  lineType: LineType.normal,
+                  // lineType: LineType.normal,
                   defaultLineColor: Colors.purple.shade300,
                   borderThickness: 10,
                   internalPadding: 15,
@@ -295,8 +297,8 @@ class _MyAppState extends State<MyApp> {
                   color: Colors.grey.shade200,
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
-                  padding: const EdgeInsetsDirectional.symmetric(
-                      vertical: 20, horizontal: 20),
+                  padding: const EdgeInsetsDirectional.only(
+                      start: 20, end: 20),
                   child: EasyStepper(
                     activeStep: activeStep,
                     lineLength: 50,
@@ -308,8 +310,8 @@ class _MyAppState extends State<MyApp> {
                     activeStepTextColor: Colors.black87,
                     finishedStepTextColor: Colors.black87,
                     internalPadding: 10,
-                    padding: const EdgeInsetsDirectional.symmetric(
-                        vertical: 20, horizontal: 20),
+                    padding: const EdgeInsetsDirectional.only(
+                        start: 20, end: 20),
                     showLoadingAnimation: false,
                     stepRadius: 8,
                     showStepBorder: false,

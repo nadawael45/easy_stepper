@@ -3,9 +3,10 @@ library easy_stepper;
 import 'dart:io';
 import 'dart:math';
 
-import 'package:easy_stepper/src/core/custom_scroll_behavior.dart';
+
 import 'package:easy_stepper/src/easy_step.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 export 'package:easy_stepper/src/easy_step.dart';
@@ -207,8 +208,8 @@ class EasyStepper extends StatefulWidget {
     this.lineDotRadius,
     this.lineThickness = 1,
     this.lineSpace = 5,
-    this.padding =
-        const EdgeInsetsDirectional.symmetric(horizontal: 10, vertical: 10),
+    this.padding =const EdgeInsets.only(right: 10,left: 10),
+      //  const EdgeInsetsDirectional.symmetric(horizontal: 10, vertical: 10),
     this.internalPadding = 8,
     @Deprecated(
         "use 'stepAnimationCurve' instead, This feature was deprecated after v0.1.4+1")
@@ -287,52 +288,34 @@ class _EasyStepperState extends State<EasyStepper> {
       WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     }
 
-    return ScrollConfiguration(
-      behavior: CustomScrollBehavior(),
-      child: Align(
-        alignment: widget.alignment,
-        child: NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowIndicator();
-            return false;
-          },
-          child: widget.disableScroll
-              ? widget.direction == Axis.horizontal
-                  ? FittedBox(
-                      fit: widget.fitWidth ? BoxFit.fitWidth : BoxFit.none,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: _buildEasySteps(),
-                      ),
-                    )
-                  : Column(
+    return Align(
+      alignment: widget.alignment,
+      child: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overscroll) {
+          overscroll.disallowIndicator();
+          return false;
+        },
+        child: widget.disableScroll
+            ? widget.direction == Axis.horizontal
+                ? FittedBox(
+                    fit: widget.fitWidth ? BoxFit.fitWidth : BoxFit.none,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: _buildEasySteps(),
-                    )
-              : ((kIsWeb ||
-                          Platform.isWindows ||
-                          Platform.isMacOS ||
-                          Platform.isLinux) &&
-                      widget.showScrollbar)
-                  ? Scrollbar(
-                      controller: _scrollController,
-                      child: SingleChildScrollView(
-                        scrollDirection: widget.direction,
-                        physics: const ClampingScrollPhysics(),
-                        controller: _scrollController,
-                        padding: widget.padding,
-                        child: widget.direction == Axis.horizontal
-                            ? Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: _buildEasySteps(),
-                              )
-                            : Column(
-                                children: _buildEasySteps(),
-                              ),
-                      ),
-                    )
-                  : SingleChildScrollView(
+                    ),
+                  )
+                : Column(
+                    children: _buildEasySteps(),
+                  )
+            : ((kIsWeb ||
+                        Platform.isWindows ||
+                        Platform.isMacOS ||
+                        Platform.isLinux) &&
+                    widget.showScrollbar)
+                ? Scrollbar(
+                    controller: _scrollController,
+                    child: SingleChildScrollView(
                       scrollDirection: widget.direction,
                       physics: const ClampingScrollPhysics(),
                       controller: _scrollController,
@@ -347,7 +330,22 @@ class _EasyStepperState extends State<EasyStepper> {
                               children: _buildEasySteps(),
                             ),
                     ),
-        ),
+                  )
+                : SingleChildScrollView(
+                    scrollDirection: widget.direction,
+                    physics: const ClampingScrollPhysics(),
+                    controller: _scrollController,
+                    padding: widget.padding,
+                    child: widget.direction == Axis.horizontal
+                        ? Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: _buildEasySteps(),
+                          )
+                        : Column(
+                            children: _buildEasySteps(),
+                          ),
+                  ),
       ),
     );
   }
